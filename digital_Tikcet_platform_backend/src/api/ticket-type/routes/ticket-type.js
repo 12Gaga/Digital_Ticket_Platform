@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * user-auth router
+ * ticket-type router
  */
 
 const { createCoreRouter } = require('@strapi/strapi').factories;
 
-module.exports = createCoreRouter('api::user-auth.user-auth');
+module.exports = createCoreRouter('api::ticket-type.ticket-type');

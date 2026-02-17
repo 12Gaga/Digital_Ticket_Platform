@@ -1,21 +1,26 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import WelcomePage from "./pages/welcomePage";
+import { NavigationContainer } from "@react-navigation/native";
+import Navigations from "./Apps/Navigations/Navigations";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useEffect, useState } from "react";
+import UserAuth from "./Configs/UserAuth";
+import HomePage from "./Pages/Home";
 
 export default function App() {
+  const [user, setUser] = useState(null);
+  console.log("user", user);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const storedUser = await UserAuth.getUserAuth(); // if async
+      setUser(storedUser);
+    };
+
+    fetchUser();
+  }, []);
+  const Stack = createNativeStackNavigator();
   return (
-    <View style={styles.container}>
-      <WelcomePage />
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      {user ? <HomePage /> : <Navigations />}
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

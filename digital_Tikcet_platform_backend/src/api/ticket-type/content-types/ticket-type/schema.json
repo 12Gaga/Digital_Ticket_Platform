@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ticket_types",
+  "info": {
+    "singularName": "ticket-type",
+    "pluralName": "ticket-types",
+    "displayName": "ticket_type"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Name": {
+      "type": "string",
+      "required": true
+    },
+    "DailyLimit": {
+      "type": "string",
+      "required": false
+    },
+    "Price": {
+      "type": "string"
+    }
+  }
+}

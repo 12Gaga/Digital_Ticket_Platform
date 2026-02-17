@@ -3,17 +3,18 @@ import {
   Text,
   TextInput,
   StyleSheet,
-  Touchable,
   TouchableOpacity,
 } from "react-native";
-import React, { useState } from "react";
-import globalApi from "../Apis/globalApi";
+import { useState } from "react";
+import globalApi from "../Configs/globalApi";
+import { useNavigation } from "@react-navigation/native";
 
-export default function WelcomePage() {
-  const [data, setData] = useState({ Name: "", Email: "", Password: "" });
+export default function RegisterPage() {
+  const [data, setData] = useState({ username: "", email: "", password: "" });
+  const navigation = useNavigation();
   const click_btn = async () => {
     try {
-      if (!data.Name || !data.Email || !data.Password) {
+      if (!data.username || !data.email || !data.password) {
         alert("Please fill all fields");
         return;
       }
@@ -21,16 +22,18 @@ export default function WelcomePage() {
       const resp = await globalApi.setUser(data);
 
       if (resp.ok) {
-        console.log("Successfully registered ✅", resp.data);
+        navigation.navigate("login");
+        setData({ username: "", email: "", password: "" });
       } else {
+        alert("Failed Registration.");
         console.log("Failed ❌", resp.data);
       }
     } catch (error) {
-      console.log("Register error ❌", error);
+      alert("Registration Error");
     }
   };
   return (
-    <View>
+    <View style={styles.container}>
       <Text
         style={{
           marginBottom: 20,
@@ -46,29 +49,44 @@ export default function WelcomePage() {
       <TextInput
         placeholder="User Name"
         value={data.name}
-        onChangeText={(text) => setData({ ...data, Name: text })}
+        onChangeText={(text) => setData({ ...data, username: text })}
         style={styles.text_input}
       />
       <TextInput
         placeholder="Email"
         value={data.email}
-        onChangeText={(text) => setData({ ...data, Email: text })}
+        onChangeText={(text) => setData({ ...data, email: text })}
         style={styles.text_input}
       />
       <TextInput
         placeholder="Password"
         value={data.password}
-        onChangeText={(text) => setData({ ...data, Password: text })}
+        onChangeText={(text) => setData({ ...data, password: text })}
         style={styles.text_input}
       />
       <TouchableOpacity style={styles.register_btn} onPress={click_btn}>
         <Text style={{ color: "white" }}>Resigter</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("login");
+        }}
+      >
+        <Text style={{ color: "#0383CE", textAlign: "center", fontSize: 10 }}>
+          Log In
+        </Text>
       </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   text_input: {
     width: 330,
     borderColor: "black",
@@ -84,5 +102,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     display: "flex",
     alignItems: "center",
+    marginBottom: 10,
   },
 });

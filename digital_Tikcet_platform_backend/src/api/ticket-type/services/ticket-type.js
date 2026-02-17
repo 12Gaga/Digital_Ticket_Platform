@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * user-auth service
+ * ticket-type service
  */
 
 const { createCoreService } = require('@strapi/strapi').factories;
 
-module.exports = createCoreService('api::user-auth.user-auth');
+module.exports = createCoreService('api::ticket-type.ticket-type');

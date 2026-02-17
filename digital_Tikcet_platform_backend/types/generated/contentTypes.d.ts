@@ -632,12 +632,13 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
   };
 }
 
-export interface ApiUserAuthUserAuth extends Struct.CollectionTypeSchema {
-  collectionName: 'user_auths';
+export interface ApiTicketBookingTicketBooking
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'ticket_bookings';
   info: {
-    displayName: 'User_Auth';
-    pluralName: 'user-auths';
-    singularName: 'user-auth';
+    displayName: 'ticket_booking';
+    pluralName: 'ticket-bookings';
+    singularName: 'ticket-booking';
   };
   options: {
     draftAndPublish: true;
@@ -646,15 +647,49 @@ export interface ApiUserAuthUserAuth extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    Email: Schema.Attribute.Email;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
-      'api::user-auth.user-auth'
+      'api::ticket-booking.ticket-booking'
     > &
       Schema.Attribute.Private;
-    Name: Schema.Attribute.String;
-    Password: Schema.Attribute.Password;
+    Name: Schema.Attribute.String & Schema.Attribute.Required;
+    Phone: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    qrcode: Schema.Attribute.Text;
+    ticket_type: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::ticket-type.ticket-type'
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiTicketTypeTicketType extends Struct.CollectionTypeSchema {
+  collectionName: 'ticket_types';
+  info: {
+    displayName: 'ticket_type';
+    pluralName: 'ticket-types';
+    singularName: 'ticket-type';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    DailyLimit: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::ticket-type.ticket-type'
+    > &
+      Schema.Attribute.Private;
+    Name: Schema.Attribute.String & Schema.Attribute.Required;
+    Price: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -1179,7 +1214,8 @@ declare module '@strapi/strapi' {
       'api::author.author': ApiAuthorAuthor;
       'api::category.category': ApiCategoryCategory;
       'api::global.global': ApiGlobalGlobal;
-      'api::user-auth.user-auth': ApiUserAuthUserAuth;
+      'api::ticket-booking.ticket-booking': ApiTicketBookingTicketBooking;
+      'api::ticket-type.ticket-type': ApiTicketTypeTicketType;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
