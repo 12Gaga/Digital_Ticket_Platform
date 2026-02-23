@@ -4,23 +4,27 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useEffect, useState } from "react";
 import UserAuth from "./Configs/UserAuth";
 import HomePage from "./Pages/Home";
+import { View, Text } from "react-native";
+
+const linking = {
+  prefixes: ["ticketapp://"],
+  config: {
+    screens: {
+      qrcheck: "qrcheck/:id",
+    },
+  },
+};
 
 export default function App() {
-  const [user, setUser] = useState(null);
-  console.log("user", user);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const storedUser = await UserAuth.getUserAuth(); // if async
-      setUser(storedUser);
-    };
-
-    fetchUser();
-  }, []);
   const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
-      {user ? <HomePage /> : <Navigations />}
+      <Navigations />
     </NavigationContainer>
+    // <NavigationContainer>
+    //   <View className="bg-red-500 flex-1 items-center justify-center">
+    //     <Text className="text-white text-lg">Hello NativeWind</Text>
+    //   </View>
+    // </NavigationContainer>
   );
 }

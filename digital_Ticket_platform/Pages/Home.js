@@ -15,7 +15,12 @@ import UserAuth from "../Configs/UserAuth";
 
 export default function HomePage() {
   const navigation = useNavigation();
-  const [data, setData] = useState({ Name: "", Phone: "", ticket_type: 0 });
+  const [data, setData] = useState({
+    Name: "",
+    Phone: "",
+    ticket_type: 0,
+    ticket_status: false,
+  });
   const [tickets, setTickets] = useState([]);
   const [dailyLimit, setDailyLimit] = useState(false);
   const [ticketData, setTicketData] = useState({
@@ -62,12 +67,23 @@ export default function HomePage() {
       Alert.alert("Please fill all fields");
       return;
     }
-    const resp = await globalApi.setTicketBooking(data);
+    const payload = {
+      data: {
+        Name: data.Name,
+        Phone: data.Phone,
+        ticket_type: {
+          id: data.ticket_type,
+        },
+        ticket_status: !!data.ticket_status,
+      },
+    };
+
+    const resp = await globalApi.setTicketBooking(payload.data);
     console.log("ticketResp", resp.data.data);
     if (resp.ok) {
       setTicketData({
         ...ticketData,
-        id: resp.data.data.id,
+        id: resp.data.data.documentId,
       });
       navigation.navigate("qr", { ticketData: ticketData });
       setData({ Name: "", Phone: "", ticket_type: 0 });
@@ -77,15 +93,24 @@ export default function HomePage() {
     }
   };
 
+  const [user, setUser] = useState();
+  console.log("data2", data);
+  useEffect(() => {
+    const fetchUser = async () => {
+      const storedUser = await UserAuth.getUserAuth(); // if async
+      setUser(storedUser);
+    };
+
+    fetchUser();
+  }, []);
   return (
     <View style={styles.container}>
       <TouchableOpacity
         style={[styles.btn, { position: "absolute", top: 30, right: 0 }]}
         onPress={() => {
           UserAuth.logout();
-          navigation.goBack();
+          navigation.navigate("login");
         }}
-        disabled={dailyLimit}
       >
         <Text style={{ color: "white" }}>Log Out</Text>
       </TouchableOpacity>
@@ -139,6 +164,22 @@ export default function HomePage() {
         disabled={dailyLimit}
       >
         <Text style={{ color: "white" }}>Booking</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.btn}
+        onPress={() => navigation.navigate("qrcheck")}
+      >
+        <Text style={{ color: "white" }}>QR Scan</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.btn, { width: 150 }]}
+        onPress={() =>
+          navigation.navigate("ticketDetail", {
+            id: "u3rga6fu5x943fm79y6vfhx0",
+          })
+        }
+      >
+        <Text style={{ color: "white" }}>Ticket Detail</Text>
       </TouchableOpacity>
     </View>
   );

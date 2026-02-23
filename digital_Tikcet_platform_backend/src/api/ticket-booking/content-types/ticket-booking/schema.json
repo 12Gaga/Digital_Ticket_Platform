@@ -19,13 +19,14 @@
       "type": "string",
       "required": true
     },
-    "qrcode": {
-      "type": "text"
-    },
     "ticket_type": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::ticket-type.ticket-type"
+    },
+    "ticket_status": {
+      "type": "boolean",
+      "default": true
     }
   }
 }

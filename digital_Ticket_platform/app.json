@@ -3,6 +3,7 @@
     "name": "digital_Ticket_platform",
     "slug": "digital_Ticket_platform",
     "version": "1.0.0",
+    "scheme": "ticketapp",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -20,10 +21,17 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.myat_noe.digital_Ticket_platform"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "8e0a3f35-2564-465a-a473-5359ecda27d2"
+      }
     }
   }
 }

@@ -7,6 +7,7 @@ export default function QRcode() {
   const { ticketData } = useRoute().params;
   const navigation = useNavigation();
   console.log("data", ticketData);
+  const qrUrl = `ticketapp://qrcheck/${ticketData.id}`;
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -20,7 +21,7 @@ export default function QRcode() {
       <Text style={{ marginBottom: 10 }}>
         Ticket Type : {ticketData.ticket_type}
       </Text>
-      <QRCode value={JSON.stringify(ticketData)} size={200} />
+      <QRCode value={qrUrl} size={200} />
       <Text style={{ marginTop: 10 }}>Save your QR code </Text>
     </View>
   );

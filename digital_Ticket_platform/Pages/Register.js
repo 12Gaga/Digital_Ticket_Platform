@@ -26,6 +26,7 @@ export default function RegisterPage() {
         setData({ username: "", email: "", password: "" });
       } else {
         alert("Failed Registration.");
+        console.log("PROBLEM 👉", resp.problem);
         console.log("Failed ❌", resp.data);
       }
     } catch (error) {

@@ -656,7 +656,7 @@ export interface ApiTicketBookingTicketBooking
     Name: Schema.Attribute.String & Schema.Attribute.Required;
     Phone: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
-    qrcode: Schema.Attribute.Text;
+    ticket_status: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     ticket_type: Schema.Attribute.Relation<
       'oneToOne',
       'api::ticket-type.ticket-type'
